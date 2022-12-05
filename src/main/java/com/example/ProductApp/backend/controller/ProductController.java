@@ -27,4 +27,10 @@ public class ProductController {
     public  String editproduct(){
         return "welcome to edit product";
     }
+
+
+    @PostMapping("/viewall")
+    public String viewall(){
+        return "view all products here";
+    }
 }
