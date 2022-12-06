@@ -1,43 +1,37 @@
 package com.example.ProductApp.backend.controller;
 
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RestController;
+import com.example.ProductApp.backend.dao.ProductDao;
+import com.example.ProductApp.backend.model.Products;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RestController
 
 public class ProductController {
+    @Autowired
+    private ProductDao dao;
 
-    @PostMapping("/")
-    public String Home(){
-        return "welcomr to home page";
+    @CrossOrigin(origins = "*")
+    @PostMapping(path = "/addproduct",consumes = "application/json",produces = "application/json")
+    public  String addproduct(@RequestBody Products p){
+        System.out.println(p.getProductcode());
+        System.out.println(p.getProductname());
+        System.out.println(p.getMfgdate());
+        System.out.println(p.getExpdate());
+        System.out.println(p.getBrand());
+        System.out.println(p.getPrice());
+        System.out.println(p.getSellername());
+        System.out.println(p.getDistributorname());
+        dao.save(p);
+        return "product details added successfully";
     }
 
-    @PostMapping("/addproduct")
-    public  String addproduct(){
-        return "Add product details";
-    }
-
-    @PostMapping("/searchproduct")
-    public String searchproduct(){
-        return "Search productd here";
-    }
-
-
-    @PostMapping("/editproduct")
-    public  String editproduct(){
-        return "welcome to edit product";
-    }
-
-
+    @CrossOrigin(origins = "*")
     @GetMapping("/viewall")
-    public String viewall(){
-        return "view all products here";
+    public List<Products> viewall(){
+        return(List<Products>)dao.findAll() ;
     }
 
-    @PostMapping("/deleteproduct")
-    public String deleteproduct(){
-        return "welcome to delete page";
-
-    }
 }
